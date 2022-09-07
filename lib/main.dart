@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_map_flutter/Map.dart';
+import 'package:google_map_flutter/routes/routes.dart';
+import 'package:google_map_flutter/routes/routes_name.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyMap(),
+      initialRoute: RoutesName.mapHome,
+      onGenerateRoute: Routes.generateRoute,
     );
   }
 }
