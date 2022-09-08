@@ -18,6 +18,7 @@ class _CurrentLocationState extends State<CurrentLocation> {
     getUserCurrentLocation().then((value) async {
       final GoogleMapController controller = await gMapController.future;
       LatLng latlng = LatLng(value.latitude, value.longitude);
+      markers.clear();
       markers.add(Marker(markerId: const MarkerId('1'), position: latlng));
       CameraPosition cameraPosition =
       CameraPosition(zoom: 17.99, target: latlng);
@@ -54,6 +55,12 @@ class _CurrentLocationState extends State<CurrentLocation> {
             gMapController.complete(controller);
           },
           markers: Set<Marker>.of(markers),
+          onTap:(LatLng latlng){
+            markers.clear();
+            markers.add(Marker(markerId: MarkerId('5'),position: latlng));
+            setState(() {
+            });
+          },
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {

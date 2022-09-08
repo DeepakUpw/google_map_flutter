@@ -19,7 +19,7 @@ class _MyMapState extends State<MyMap> {
     zoom: 14.56,
   );
 
-  List<Marker> markers = [];
+  Set<Marker> markers = {};
   List<Marker> list = [
     const Marker(
       markerId: MarkerId('1'),
@@ -67,19 +67,37 @@ class _MyMapState extends State<MyMap> {
               left: 10,
               top: 10,
               right: 10,
-              height: 40,
-              child: Container(
-                color: Colors.white,
+              child: Column(
+                children: [
+                  Container(
+                    height: 30,
+                    color: Colors.white,
+                        child: InkWell(
+                          onTap: (){
+                            Navigator.pushNamed(context, RoutesName.firstScreen);
+                          },
+                          child: const Center(
+                              child: Text("Latlng to address")
+                          ),
+                        ),
+                  ),
+                  const SizedBox(height: 5,),
+                  Container(
+                    color: Colors.white,
+                    height: 30,
                     child: InkWell(
                       onTap: (){
-                        Navigator.pushNamed(context, RoutesName.firstScreen);
+                        Navigator.pushNamed(context, RoutesName.currentLocation);
                       },
-                      child: Center(
-                          child: Text("Screen 1")
+                      child: const Center(
+                          child: Text("Current location")
                       ),
                     ),
+                  ),
+                ],
               ),
             ),
+            /*
             Positioned(
               left: 10,
               top: 10,
@@ -98,6 +116,7 @@ class _MyMapState extends State<MyMap> {
               ),
             ),
 
+             */
           ],
         ),
 
