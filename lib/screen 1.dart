@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class FirstScreen extends StatefulWidget {
   const FirstScreen({Key? key}) : super(key: key);
@@ -35,10 +36,9 @@ class _FirstScreenState extends State<FirstScreen> {
             child: GestureDetector(
               onTap: () async{
                 // Passed the coordinates of latitude and longitude
-                var coordinates = Coordinates(27.7304, 75.4753);
-                var address = await Geocoder.local.findAddressesFromCoordinates(coordinates);
-                String addressLine = address.first.addressLine.toString();
-                print("Location => $addressLine ");
+                List<Placemark> placemarks = await placemarkFromCoordinates(52.2165157, 6.9437819);
+                String addressLine = placemarks.first.street.toString();
+                print("Location => $addressLine");
                 setState(() {
                   setAddress = addressLine;
                 });
@@ -50,6 +50,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 alignment: Alignment.center,
                 child: Text('Show Address'),
               ),
+
             ),
           )
         ],

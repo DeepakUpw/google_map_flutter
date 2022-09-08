@@ -80,22 +80,27 @@ class _MyMapState extends State<MyMap> {
                     ),
               ),
             ),
+            Positioned(
+              left: 10,
+              top: 10,
+              right: 10,
+              height: 40,
+              child: Container(
+                color: Colors.white,
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.pushNamed(context, RoutesName.currentLocation);
+                      },
+                      child: Center(
+                          child: Text("current location")
+                      ),
+                    ),
+              ),
+            ),
 
           ],
         ),
 
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          GoogleMapController controller = await mapController.future;
-          controller.animateCamera(CameraUpdate.newCameraPosition(
-              CameraPosition(
-                  target: LatLng(27.73808, 75.47452),
-                  zoom: 16.56,
-                  bearing: 2)));
-        },
-        splashColor: Colors.red,
-        child: Icon(Icons.my_location),
       ),
     );
   }

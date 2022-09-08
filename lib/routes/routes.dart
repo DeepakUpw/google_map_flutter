@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_map_flutter/currentLocation.dart';
 import 'package:google_map_flutter/routes/routes_name.dart';
 import 'package:google_map_flutter/screen%201.dart';
 
@@ -9,11 +10,15 @@ class Routes {
     switch (routeSettings.name) {
       case RoutesName.firstScreen:
         {
-          return MaterialPageRoute(builder: (context) => FirstScreen());
+          return MaterialPageRoute(builder: (context) => const FirstScreen());
         }
       case RoutesName.mapHome:
         {
-          return MaterialPageRoute(builder: (context) => MyMap());
+          return MaterialPageRoute(builder: (context) => const MyMap());
+        }
+      case RoutesName.currentLocation:
+        {
+          return MaterialPageRoute(builder: (context) => const CurrentLocation());
         }
       default:
         return MaterialPageRoute(
