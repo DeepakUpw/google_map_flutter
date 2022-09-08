@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -12,24 +11,37 @@ class CurrentLocation extends StatefulWidget {
 }
 
 class _CurrentLocationState extends State<CurrentLocation> {
-
   final Completer<GoogleMapController> gMapController = Completer();
+  final List<Marker> markers = [  ];
 
-  Future<Position> getUserCurrentLocation() async{
-
-    await Geolocator.requestPermission().then((value) => {
-
-    }).onError((error, stackTrace) => {
-
+  loadCurrentLocationData(){
+    getUserCurrentLocation().then((value) async {
+      final GoogleMapController controller = await gMapController.future;
+      LatLng latlng = LatLng(value.latitude, value.longitude);
+      markers.add(Marker(markerId: const MarkerId('1'), position: latlng));
+      CameraPosition cameraPosition =
+      CameraPosition(zoom: 17.99, target: latlng);
+      controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     });
-    return await Geolocator.getCurrentPosition();
-
+    setState(() {});
   }
 
-  CameraPosition initialCameraPosition = const CameraPosition(
-    target:  LatLng(20.5937, 78.9629),
-    zoom: 5
-  );
+  Future<Position> getUserCurrentLocation() async {
+    await Geolocator.requestPermission()
+        .then((value) => {})
+        .onError((error, stackTrace) => {});
+    return await Geolocator.getCurrentPosition();
+  }
+
+  CameraPosition initialCameraPosition =
+      const CameraPosition(target: LatLng(20.5937, 78.9629), zoom: 5);
+
+  @override
+  void initState() {
+    super.initState();
+    loadCurrentLocationData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -38,22 +50,18 @@ class _CurrentLocationState extends State<CurrentLocation> {
           initialCameraPosition: initialCameraPosition,
           mapType: MapType.hybrid,
           zoomControlsEnabled: false,
-          onMapCreated: (GoogleMapController controller){
+          onMapCreated: (GoogleMapController controller) {
             gMapController.complete(controller);
           },
+          markers: Set<Marker>.of(markers),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            getUserCurrentLocation().then((value) => {
-              print("My Location ${value.latitude} ${value.longitude}")
-            });
+          onPressed: () async {
+            loadCurrentLocationData();
           },
           child: const Icon(Icons.my_location),
-
         ),
-
       ),
     );
   }
-
 }
